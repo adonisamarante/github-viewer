@@ -7,7 +7,9 @@ import Button from '../../components/Button';
 
 export function Home() {
   const [username, setUsername] = useState('');
-  const { userInfo, searchUser, setUserInfo } = useContext(SearchContext);
+  const {
+    userInfo, searchUser, setUserInfo, loading,
+  } = useContext(SearchContext);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,7 +40,7 @@ export function Home() {
 
   return (
     <>
-      <p>{userInfo?.name}</p>
+      {loading && <p>Buscando usuário...</p>}
       <form onSubmit={findUser}>
         <input
           type="text"
