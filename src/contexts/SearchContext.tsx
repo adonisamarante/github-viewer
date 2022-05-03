@@ -4,20 +4,22 @@ import React, {
 import axios from 'axios';
 
 type User = {
-  name: string;
-  avatar_url: string;
-  html_url: string;
-  followers: number;
-  following: number;
-  location: string;
-  repos: Repo[]
+  readonly name: string;
+  readonly avatar_url: string;
+  readonly html_url: string;
+  readonly followers: number;
+  readonly following: number;
+  readonly location: string;
+  readonly bio: string;
+  readonly repos: Repo[]
 }
 
 type Repo = {
-  name: string,
-  private: boolean,
-  language: string,
-  html_url: string,
+  readonly name: string,
+  readonly private: boolean,
+  readonly language: string,
+  readonly stargazers_count: number,
+  readonly html_url: string,
 }
 
 type SearchContextProvider = {
@@ -39,30 +41,39 @@ export function SearchContextProvider(props: SearchContextProviderProps) {
   const { children } = props;
 
   function searchUser(username: string) {
-    const repos: Repo[] = [];
     setLoading(true);
     axios.all([
       axios.get(`https://api.github.com/users/${username}`),
       axios.get(`https://api.github.com/users/${username}/repos`),
     ]).then((res) => {
-      if (res[1].data) {
-        res[1].data.map((repo: Repo) => repos.push({
-          name: repo.name,
-          private: repo.private,
-          language: repo.language,
-          html_url: repo.html_url,
-        }));
-      }
+      const resultUser = res[0].data;
+      const resultUserRepos = res[1].data;
 
-      setUserInfo({
-        name: res[0].data.name,
-        avatar_url: res[0].data.avatar_url,
-        html_url: res[0].data.html_url,
-        followers: res[0].data.followers,
-        following: res[0].data.following,
-        location: res[0].data.location,
-        repos,
-      });
+      if (resultUser) {
+        const filteredRepos: Repo[] = [];
+
+        if (resultUserRepos) {
+          resultUserRepos.map((repo: Repo) => filteredRepos.push({
+            name: repo.name,
+            private: repo.private,
+            language: repo.language,
+            stargazers_count: repo.stargazers_count,
+            html_url: repo.html_url,
+          }));
+          filteredRepos.sort((a, b) => (a.stargazers_count > b.stargazers_count ? 1 : -1));
+        }
+
+        setUserInfo({
+          name: resultUser.name,
+          avatar_url: resultUser.avatar_url,
+          html_url: resultUser.html_url,
+          followers: resultUser.followers,
+          following: resultUser.following,
+          location: resultUser.location,
+          bio: resultUser.bio,
+          repos: filteredRepos,
+        });
+      }
 
       setLoading(false);
     });
