@@ -38,7 +38,7 @@ export function Home() {
           onChange={(event) => setUsername(event.target.value)}
           value={username}
         />
-        <Button type="submit">
+        <Button type="submit" disabled={loading}>
           {loading ? 'Buscando...' : 'Buscar'}
         </Button>
       </form>
