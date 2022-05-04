@@ -13,8 +13,8 @@ Run `yarn` and then `yarn start` to run the application on port 3000.
 
 ## 💻 Test it!
 
-Type the username in the form field.<br />
-IMG
+Type the username in the form field and click search.<br />
+![github-medium](https://i.postimg.cc/hvk27p2D/search.png)
 
 Now you have some information from that user!<br />
-IMG
+![github-medium](https://i.postimg.cc/DfSFL0xH/search-Result.png)
