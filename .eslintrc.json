@@ -22,6 +22,7 @@
     "react-hooks"
   ],
   "rules": {
+    "camelcase": "off",
     "react/jsx-props-no-spreading": "off",
     "react/button-has-type": "off",
     "no-use-before-define": "off",

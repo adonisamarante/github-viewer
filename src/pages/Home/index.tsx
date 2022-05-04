@@ -1,31 +1,21 @@
 import React, {
   useState, FormEvent, useContext, useEffect,
 } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { SearchContext } from '../../contexts/SearchContext';
 import Button from '../../components/Button';
+
+import { Container, Logo, StyledInput } from './styles';
 
 export function Home() {
   const [username, setUsername] = useState('');
   const {
-    userInfo, searchUser, setUserInfo, loading,
+    searchUser, setUserInfo, loading,
   } = useContext(SearchContext);
-  const navigate = useNavigate();
 
   useEffect(() => {
     setUserInfo(undefined);
     setUsername('');
-    // eslint-disable-next-line
   }, []);
-
-  useEffect(() => {
-    if (!userInfo) {
-      return;
-    }
-
-    navigate('/UserInfo');
-    // eslint-disable-next-line
-  }, [userInfo]);
 
   function findUser(event: FormEvent) {
     event.preventDefault();
@@ -39,19 +29,19 @@ export function Home() {
   }
 
   return (
-    <>
-      {loading && <p>Buscando usuário...</p>}
+    <Container>
+      <Logo />
       <form onSubmit={findUser}>
-        <input
+        <StyledInput
           type="text"
           placeholder="Digite o nome de usuário"
           onChange={(event) => setUsername(event.target.value)}
           value={username}
         />
         <Button type="submit">
-          Buscar
+          {loading ? 'Buscando...' : 'Buscar'}
         </Button>
       </form>
-    </>
+    </Container>
   );
 }

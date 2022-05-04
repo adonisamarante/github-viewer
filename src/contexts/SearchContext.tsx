@@ -2,9 +2,12 @@ import React, {
   createContext, useState, ReactNode,
 } from 'react';
 import axios from 'axios';
+import { toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 
 type User = {
   readonly name: string;
+  readonly email: string;
   readonly avatar_url: string;
   readonly html_url: string;
   readonly followers: number;
@@ -16,7 +19,6 @@ type User = {
 
 type Repo = {
   readonly name: string,
-  readonly private: boolean,
   readonly language: string,
   readonly stargazers_count: number,
   readonly html_url: string,
@@ -38,6 +40,7 @@ export const SearchContext = createContext({} as SearchContextProvider);
 export function SearchContextProvider(props: SearchContextProviderProps) {
   const [userInfo, setUserInfo] = useState<User>();
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const { children } = props;
 
   function searchUser(username: string) {
@@ -55,16 +58,16 @@ export function SearchContextProvider(props: SearchContextProviderProps) {
         if (resultUserRepos) {
           resultUserRepos.map((repo: Repo) => filteredRepos.push({
             name: repo.name,
-            private: repo.private,
             language: repo.language,
             stargazers_count: repo.stargazers_count,
             html_url: repo.html_url,
           }));
-          filteredRepos.sort((a, b) => (a.stargazers_count > b.stargazers_count ? 1 : -1));
+          filteredRepos.sort((a, b) => (a.stargazers_count < b.stargazers_count ? 1 : -1));
         }
 
         setUserInfo({
           name: resultUser.name,
+          email: resultUser.email,
           avatar_url: resultUser.avatar_url,
           html_url: resultUser.html_url,
           followers: resultUser.followers,
@@ -76,6 +79,10 @@ export function SearchContextProvider(props: SearchContextProviderProps) {
       }
 
       setLoading(false);
+      navigate('/UserInfo');
+    }).catch(() => {
+      setLoading(false);
+      toast.error('Usuário não encontrado!');
     });
   }
 
