@@ -11,7 +11,7 @@ Get information from a specific user like email, location, followers, bio and re
 
 Run `yarn` and then `yarn start` to run the application on port 3000.
 
-## Test it!
+## 💻 Test it!
 
 Type the username in the form field.<br />
 IMG
