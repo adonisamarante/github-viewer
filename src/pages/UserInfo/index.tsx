@@ -14,13 +14,6 @@ import {
   ReposDiv,
 } from './styles';
 
-type Repo = {
-  readonly name: string,
-  readonly language: string,
-  readonly stargazers_count: number,
-  readonly html_url: string,
-}
-
 export function UserInfo() {
   const { userInfo } = useContext(SearchContext);
 
@@ -46,7 +39,7 @@ export function UserInfo() {
       <h3>{`${userInfo?.repos ? `${userInfo?.repos.length} Repositório(s)` : 'Repositórios'}`}</h3>
       <ReposDiv>
         {(userInfo?.repos.length
-          && userInfo?.repos.map((repo: Repo) => <RepoCard {...repo} key={repo.html_url} />))
+          && userInfo?.repos.map((repo) => <RepoCard {...repo} key={repo.html_url} />))
           || <p>Este usuário não possui repositórios públicos.</p>}
       </ReposDiv>
     </Container>
