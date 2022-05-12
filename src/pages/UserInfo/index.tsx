@@ -1,5 +1,5 @@
-import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import SearchContext from '../../contexts/SearchContext';
 import RepoCard from '../../components/RepoCard';
 
@@ -15,7 +15,14 @@ import {
 } from './styles';
 
 export function UserInfo() {
-  const { userInfo } = useContext(SearchContext);
+  const { userInfo, searchUser } = useContext(SearchContext);
+  const { username } = useParams();
+
+  useEffect(() => {
+    if (username !== userInfo?.login) {
+      searchUser(username as string);
+    }
+  }, []);
 
   return (
     <Container>

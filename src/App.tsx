@@ -18,7 +18,7 @@ function App() {
         <SearchContextProvider>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/UserInfo" element={<UserInfo />} />
+            <Route path="/UserInfo/:username" element={<UserInfo />} />
           </Routes>
         </SearchContextProvider>
       </BrowserRouter>
