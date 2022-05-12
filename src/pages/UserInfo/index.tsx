@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import SearchContext from '../../contexts/SearchContext';
 import RepoCard from '../../components/RepoCard';
@@ -28,7 +28,7 @@ export function UserInfo() {
         </UserImgDiv>
         <UserDataDiv>
           <h1>{userInfo?.name}</h1>
-          <p>{`Email: ${userInfo?.email || 'não informado'}`}</p>
+          <p>{`Email: ${userInfo?.email || 'privado'}`}</p>
           <p>{`Local: ${userInfo?.location || 'não informado'}`}</p>
           <p>{`Seguidores ${userInfo?.followers} • Seguindo ${userInfo?.following}`}</p>
           <BioDiv>

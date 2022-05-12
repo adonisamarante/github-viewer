@@ -56,13 +56,15 @@ export function SearchContextProvider(props: SearchContextProviderProps) {
         const filteredRepos: Repo[] = [];
 
         if (resultUserRepos) {
-          resultUserRepos.map((repo: Repo) => filteredRepos.push({
-            name: repo.name,
-            language: repo.language,
-            stargazers_count: repo.stargazers_count,
-            html_url: repo.html_url,
-          }));
-          filteredRepos.sort((a, b) => (a.stargazers_count < b.stargazers_count ? 1 : -1));
+          resultUserRepos.forEach((repo: Repo) => {
+            filteredRepos.push({
+              name: repo.name,
+              language: repo.language,
+              stargazers_count: repo.stargazers_count,
+              html_url: repo.html_url,
+            });
+            filteredRepos.sort((a, b) => (a.stargazers_count < b.stargazers_count ? 1 : -1));
+          });
         }
 
         setUserInfo({
