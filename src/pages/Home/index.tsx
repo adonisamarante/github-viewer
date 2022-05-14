@@ -1,4 +1,4 @@
-import React, {
+import {
   useState, FormEvent, useContext, useEffect,
 } from 'react';
 import { SearchContext } from '../../contexts/SearchContext';

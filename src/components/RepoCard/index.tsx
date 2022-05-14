@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { RepoCardContainer, TopDiv, BottomDiv } from './styles';
 
 type Repo = {

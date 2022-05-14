@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 
 type User = {
+  readonly login: string;
   readonly name: string;
   readonly email: string;
   readonly avatar_url: string;
@@ -56,16 +57,19 @@ export function SearchContextProvider(props: SearchContextProviderProps) {
         const filteredRepos: Repo[] = [];
 
         if (resultUserRepos) {
-          resultUserRepos.map((repo: Repo) => filteredRepos.push({
-            name: repo.name,
-            language: repo.language,
-            stargazers_count: repo.stargazers_count,
-            html_url: repo.html_url,
-          }));
-          filteredRepos.sort((a, b) => (a.stargazers_count < b.stargazers_count ? 1 : -1));
+          resultUserRepos.forEach((repo: Repo) => {
+            filteredRepos.push({
+              name: repo.name,
+              language: repo.language,
+              stargazers_count: repo.stargazers_count,
+              html_url: repo.html_url,
+            });
+            filteredRepos.sort((a, b) => (a.stargazers_count < b.stargazers_count ? 1 : -1));
+          });
         }
 
         setUserInfo({
+          login: resultUser.login,
           name: resultUser.name,
           email: resultUser.email,
           avatar_url: resultUser.avatar_url,
@@ -79,7 +83,7 @@ export function SearchContextProvider(props: SearchContextProviderProps) {
       }
 
       setLoading(false);
-      navigate('/UserInfo');
+      navigate(`/UserInfo/${username}`);
     }).catch(() => {
       setLoading(false);
       toast.error('Usuário não encontrado!');

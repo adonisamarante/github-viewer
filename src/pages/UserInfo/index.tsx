@@ -1,5 +1,5 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import SearchContext from '../../contexts/SearchContext';
 import RepoCard from '../../components/RepoCard';
 
@@ -14,15 +14,15 @@ import {
   ReposDiv,
 } from './styles';
 
-type Repo = {
-  readonly name: string,
-  readonly language: string,
-  readonly stargazers_count: number,
-  readonly html_url: string,
-}
-
 export function UserInfo() {
-  const { userInfo } = useContext(SearchContext);
+  const { userInfo, searchUser } = useContext(SearchContext);
+  const { username } = useParams();
+
+  useEffect(() => {
+    if (username !== userInfo?.login) {
+      searchUser(username as string);
+    }
+  }, []);
 
   return (
     <Container>
@@ -35,7 +35,7 @@ export function UserInfo() {
         </UserImgDiv>
         <UserDataDiv>
           <h1>{userInfo?.name}</h1>
-          <p>{`Email: ${userInfo?.email || 'não informado'}`}</p>
+          <p>{`Email: ${userInfo?.email || 'privado'}`}</p>
           <p>{`Local: ${userInfo?.location || 'não informado'}`}</p>
           <p>{`Seguidores ${userInfo?.followers} • Seguindo ${userInfo?.following}`}</p>
           <BioDiv>
@@ -46,7 +46,7 @@ export function UserInfo() {
       <h3>{`${userInfo?.repos ? `${userInfo?.repos.length} Repositório(s)` : 'Repositórios'}`}</h3>
       <ReposDiv>
         {(userInfo?.repos.length
-          && userInfo?.repos.map((repo: Repo) => <RepoCard {...repo} key={repo.html_url} />))
+          && userInfo?.repos.map((repo) => <RepoCard {...repo} key={repo.html_url} />))
           || <p>Este usuário não possui repositórios públicos.</p>}
       </ReposDiv>
     </Container>
