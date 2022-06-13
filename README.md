@@ -18,3 +18,7 @@ Type the username in the form field and click search.<br />
 
 Now you have some information from that user!<br />
 ![github-medium](https://i.postimg.cc/DfSFL0xH/search-Result.png)
+
+<br />
+The app is also running on Firebase<br />
+https://github-viewer-816da.firebaseapp.com/
